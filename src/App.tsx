@@ -36,7 +36,8 @@ import {
   Camera,
   Image as ImageIcon,
   Upload,
-  Lock
+  Lock,
+  Menu
 } from 'lucide-react';
 import { 
   auth, 
@@ -131,84 +132,228 @@ const INITIAL_EVENTS: Event[] = [
 
 // --- Shared Components ---
 
-const Navbar = ({ activeView, setView, user, onLogin, onLogout, onGetInTouch }: { 
+const Navbar = ({ activeView, setView, user, isAdmin, onLogin, onLogout, onGetInTouch }: { 
   activeView: View, 
   setView: (v: View) => void,
   user: FirebaseUser | null,
+  isAdmin: boolean,
   onLogin: () => void,
   onLogout: () => void,
   onGetInTouch: () => void
 }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  const menuItems = [
+    { id: 'Dashboard', icon: LayoutDashboard, label: 'Overview' },
+    { id: 'Leads', icon: Bell, label: 'Lead Station' },
+    { id: 'CreateEvent', icon: PlusCircle, label: 'Launch Event' },
+    { id: 'AddArtist', icon: Mic2, label: 'Add Artist' },
+    { id: 'AddVenue', icon: Building2, label: 'Add Venue' },
+  ];
+
+  const handleNavClick = (viewName: View) => {
+    setView(viewName);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[60] glass border-b border-white/5 h-20 px-6 md:px-12 flex justify-between items-center bg-slate-950/40 backdrop-blur-2xl">
-      <div className="flex items-center gap-10">
-        <div 
-          onClick={() => setView('Home')}
-          className="flex items-center gap-3 cursor-pointer group"
-        >
-          <div className="w-10 h-10 vibrant-gradient rounded-xl shadow-lg shadow-accent/40 flex items-center justify-center transition-all group-hover:scale-110 group-active:scale-95 group-hover:rotate-12">
-            <Zap className="w-6 h-6 text-white fill-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+    <>
+      <nav className="fixed top-0 left-0 right-0 z-[60] glass border-b border-white/5 h-20 px-6 md:px-12 flex justify-between items-center bg-slate-950/40 backdrop-blur-2xl">
+        <div className="flex items-center gap-10">
+          <div 
+            onClick={() => handleNavClick('Home')}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <div className="w-10 h-10 vibrant-gradient rounded-xl shadow-lg shadow-accent/40 flex items-center justify-center transition-all group-hover:scale-110 group-active:scale-95 group-hover:rotate-12">
+              <Zap className="w-6 h-6 text-white fill-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+            </div>
+            <span className="text-2xl font-extrabold tracking-tighter uppercase flex items-center gap-1">
+              VIVID<span className="text-accent underline decoration-accent/30 underline-offset-4">EVENTS</span>
+              <Sparkles className="w-4 h-4 text-accent animate-pulse" />
+            </span>
           </div>
-          <span className="text-2xl font-extrabold tracking-tighter uppercase flex items-center gap-1">
-            VIVID<span className="text-accent underline decoration-accent/30 underline-offset-4">EVENTS</span>
-            <Sparkles className="w-4 h-4 text-accent animate-pulse" />
-          </span>
+          <div className="hidden lg:flex items-center gap-10">
+            {(['Home', 'Artists', 'Venues', 'Services'] as const).map((v) => (
+              <button
+                key={v}
+                onClick={() => setView(v as View)}
+                className={`text-xs uppercase font-bold tracking-[0.2em] transition-all hover:text-white ${
+                  activeView === v ? 'text-accent' : 'text-slate-400'
+                }`}
+              >
+                {v}
+              </button>
+            ))}
+            {user && isAdmin && (
+              <button
+                onClick={() => setView('Dashboard')}
+                className={`text-xs uppercase font-bold tracking-[0.2em] transition-all hover:text-white ${
+                  ['Dashboard', 'CreateEvent', 'AddArtist', 'AddVenue', 'Leads'].includes(activeView) ? 'text-accent' : 'text-slate-400'
+                }`}
+              >
+                Management
+              </button>
+            )}
+          </div>
         </div>
-        <div className="hidden lg:flex items-center gap-10">
-          {(['Home', 'Artists', 'Venues', 'Services'] as const).map((v) => (
-            <button
-              key={v}
-              onClick={() => setView(v as View)}
-              className={`text-xs uppercase font-bold tracking-[0.2em] transition-all hover:text-white ${
-                activeView === v ? 'text-accent' : 'text-slate-400'
-              }`}
+        <div className="flex items-center gap-4">
+          <button className="hidden sm:block p-2 text-slate-400 hover:text-white transition-colors">
+            <Search className="w-5 h-5" />
+          </button>
+          <button 
+            onClick={onGetInTouch}
+            className="hidden sm:block px-4 md:px-6 py-2.5 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all shadow-lg shadow-white/5 active:scale-95 whitespace-nowrap"
+          >
+            Get in Touch
+          </button>
+          
+          {user ? (
+            <div className="hidden sm:flex items-center gap-3 ml-2">
+              <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden">
+                <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}`} alt="User" referrerPolicy="no-referrer" />
+              </div>
+              <button onClick={onLogout} className="text-slate-400 p-2 hover:text-accent transition-colors">
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={onLogin}
+              className="hidden sm:flex items-center gap-2 px-4 md:px-6 py-2.5 bg-slate-900 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-all shadow-lg active:scale-95"
             >
-              {v}
-            </button>
-          ))}
-          {user && (
-            <button
-              onClick={() => setView('Dashboard')}
-              className={`text-xs uppercase font-bold tracking-[0.2em] transition-all hover:text-white ${
-                ['Dashboard', 'CreateEvent', 'AddArtist', 'AddVenue', 'Leads'].includes(activeView) ? 'text-accent' : 'text-slate-400'
-              }`}
-            >
-              Management
+              <UserIcon className="w-3 h-3" />
+              <span className="hidden md:inline">Sign In</span>
             </button>
           )}
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <button className="hidden sm:block p-2 text-slate-400 hover:text-white transition-colors">
-          <Search className="w-5 h-5" />
-        </button>
-        <button 
-          onClick={onGetInTouch}
-          className="px-4 md:px-6 py-2.5 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all shadow-lg shadow-white/5 active:scale-95 whitespace-nowrap"
-        >
-          Get in Touch
-        </button>
-        
-        {user ? (
-          <div className="flex items-center gap-3 ml-2">
-            <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden">
-              <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}`} alt="User" />
-            </div>
-            <button onClick={onLogout} className="text-slate-400 p-2 hover:text-accent transition-colors">
-              <LogOut className="w-5 h-5" />
-            </button>
-          </div>
-        ) : (
+
+          {/* Mobile hamburger menu toggle */}
           <button 
-            onClick={onLogin}
-            className="flex items-center gap-2 px-4 md:px-6 py-2.5 bg-slate-900 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-all shadow-lg active:scale-95"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2.5 text-slate-400 hover:text-white transition-colors focus:outline-none"
+            aria-label="Toggle navigation menu"
           >
-            <UserIcon className="w-3 h-3" />
-            <span className="hidden md:inline">Sign In</span>
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
+        </div>
+      </nav>
+
+      {/* Mobile/Tablet Menu Drawer Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-2xl lg:hidden flex flex-col pt-24 px-6 pb-8 overflow-y-auto"
+          >
+            <div className="flex-1 space-y-8 py-6 max-w-md mx-auto w-full">
+              {/* Primary Links */}
+              <div className="space-y-3">
+                <p className="text-[10px] uppercase font-bold text-slate-500 tracking-[0.3em] pl-4 mb-2">Main Navigation</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {(['Home', 'Artists', 'Venues', 'Services'] as const).map((v) => {
+                    const isActive = activeView === v;
+                    return (
+                      <button
+                        key={v}
+                        onClick={() => handleNavClick(v as View)}
+                        className={`w-full flex items-center gap-4 px-6 py-4.5 rounded-2xl text-xs uppercase font-extrabold tracking-[0.16em] transition-all text-left ${
+                          isActive 
+                            ? 'vibrant-gradient text-white shadow-xl shadow-accent/20' 
+                            : 'bg-slate-900/40 text-slate-300 border border-white/5 hover:bg-white/5 hover:text-white'
+                        }`}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                        {v}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Administrative Sub-links (only if admin) */}
+              {user && isAdmin && (
+                <div className="space-y-3 pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2 pl-4 mb-2">
+                    <ShieldCheck className="w-4 h-4 text-accent" />
+                    <p className="text-[10px] uppercase font-bold text-accent tracking-[0.3em]">Management Station</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {menuItems.map((item) => {
+                      const isActive = activeView === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => handleNavClick(item.id as View)}
+                          className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] uppercase font-bold tracking-widest transition-all text-left ${
+                            isActive 
+                              ? 'bg-white text-black shadow-xl shadow-white/10' 
+                              : 'bg-slate-900/60 text-slate-400 border border-white/5 hover:bg-white/5'
+                          }`}
+                        >
+                          <item.icon className="w-4 h-4" />
+                          {item.label}
+                          {item.id === 'Leads' && (
+                            <span className="ml-auto w-2 h-2 rounded-full bg-accent animate-pulse" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Account Quick Actions on Mobile */}
+              <div className="pt-6 border-t border-white/5 space-y-4">
+                {user ? (
+                  <div className="bg-slate-900/50 p-5 rounded-3xl border border-white/5">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-11 h-11 rounded-full border border-white/10 overflow-hidden shadow-lg shadow-black/50">
+                        <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}`} alt="User" referrerPolicy="no-referrer" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-extrabold uppercase tracking-tight text-white truncate">{user.displayName || 'Vivid Member'}</p>
+                        <p className="text-[9px] text-slate-500 uppercase tracking-widest truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button 
+                        onClick={() => { setIsMobileMenuOpen(false); onGetInTouch(); }}
+                        className="py-3 bg-white/5 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all text-center"
+                      >
+                        Get Contact
+                      </button>
+                      <button 
+                        onClick={() => { setIsMobileMenuOpen(false); onLogout(); }}
+                        className="py-3 bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] font-bold uppercase tracking-widest rounded-xl hover:bg-red-500/20 transition-all text-center"
+                      >
+                        Log Out
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3">
+                    <button 
+                      onClick={() => { setIsMobileMenuOpen(false); onGetInTouch(); }}
+                      className="py-3.5 bg-slate-900 border border-white/5 text-slate-300 text-[9px] font-bold uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all text-center shadow-lg"
+                    >
+                      Get in Touch
+                    </button>
+                    <button 
+                      onClick={() => { setIsMobileMenuOpen(false); onLogin(); }}
+                      className="py-3.5 bg-white text-black text-[9px] font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all text-center shadow-lg"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
         )}
-      </div>
-    </nav>
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -1498,7 +1643,10 @@ export default function App() {
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [view]);
+    if (['Dashboard', 'CreateEvent', 'AddArtist', 'AddVenue', 'Leads', 'Settings'].includes(view) && !isAdmin) {
+      setView('Home');
+    }
+  }, [view, isAdmin]);
 
   return (
     <div className="min-h-screen relative selection:bg-accent selection:text-white">
@@ -1513,6 +1661,7 @@ export default function App() {
         activeView={view} 
         setView={setView} 
         user={user}
+        isAdmin={isAdmin}
         onLogin={() => setIsSignInOpen(true)}
         onLogout={handleLogout}
         onGetInTouch={() => setIsGetInTouchOpen(true)}
