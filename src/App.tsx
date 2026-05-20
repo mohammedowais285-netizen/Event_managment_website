@@ -520,7 +520,7 @@ const HomeView = ({ setView, events, user }: { setView: (v: View) => void, event
             <motion.div 
               key={event.id}
               whileHover={{ y: -10 }}
-              className="shrink-0 w-[320px] md:w-[400px] rounded-[40px] glass overflow-hidden snap-center group border border-white/5"
+              className="shrink-0 w-[290px] sm:w-[350px] md:w-[400px] rounded-[32px] sm:rounded-[40px] glass overflow-hidden snap-center group border border-white/5"
             >
               <div className="h-[320px] relative">
                 <img src={event.img} alt={event.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -588,7 +588,7 @@ const HomeView = ({ setView, events, user }: { setView: (v: View) => void, event
                 </div>
               )}
               <h2 className="text-xs font-bold uppercase tracking-[0.4em] text-accent mb-4">The Premier Event Collective</h2>
-              <h1 className="text-[60px] md:text-[90px] leading-[0.85] font-extrabold tracking-tighter mb-8">
+              <h1 className="text-[38px] sm:text-[60px] md:text-[90px] leading-[0.9] sm:leading-[0.85] font-extrabold tracking-tighter mb-8">
                 MAKING<br />
                 <span className="serif-ital font-black accent-text">Magic</span><br />
                 MANIFEST.
@@ -673,9 +673,9 @@ const HomeView = ({ setView, events, user }: { setView: (v: View) => void, event
 
 const ArtistsView = ({ artists }: { artists: Artist[] }) => {
   return (
-    <div className="pt-40 pb-40 px-12 max-w-7xl mx-auto">
+    <div className="pt-28 md:pt-40 pb-28 md:pb-40 px-6 md:px-12 max-w-7xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-24">
-        <h1 className="text-7xl md:text-[100px] font-extrabold tracking-tighter leading-[0.85] mb-8">
+        <h1 className="text-5xl sm:text-7xl md:text-[100px] font-extrabold tracking-tighter leading-[0.85] mb-8">
           The <span className="serif-ital text-accent">Collective</span>
         </h1>
         <p className="text-xl text-slate-400 max-w-2xl font-medium">Discover the world's most innovative performers across genres.</p>
@@ -688,12 +688,12 @@ const ArtistsView = ({ artists }: { artists: Artist[] }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.1 }}
-            className="flex flex-col lg:flex-row glass rounded-[40px] overflow-hidden neon-border group h-full"
+            className="flex flex-col lg:flex-row glass rounded-[28px] sm:rounded-[40px] overflow-hidden neon-border group h-full"
           >
             <div className="w-full lg:w-1/2 h-80 lg:h-auto overflow-hidden">
               <img src={artist.img} alt={artist.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
-            <div className="p-10 flex-1 flex flex-col justify-between">
+            <div className="p-6 sm:p-10 flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start mb-6">
                   <div>
@@ -727,9 +727,9 @@ const ArtistsView = ({ artists }: { artists: Artist[] }) => {
 
 const VenuesView = ({ venues }: { venues: Venue[] }) => {
   return (
-    <div className="pt-40 pb-40 px-12 max-w-7xl mx-auto">
+    <div className="pt-28 md:pt-40 pb-28 md:pb-40 px-6 md:px-12 max-w-7xl mx-auto">
       <header className="mb-24">
-        <h1 className="text-7xl md:text-[100px] font-extrabold tracking-tighter leading-[0.85] mb-8">
+        <h1 className="text-5xl sm:text-7xl md:text-[100px] font-extrabold tracking-tighter leading-[0.85] mb-8">
           The <span className="serif-ital text-accent">Arenas</span>
         </h1>
         <p className="text-xl text-slate-400 max-w-2xl font-medium">Breathtaking locations that command attention and ignite atmosphere.</p>
@@ -742,7 +742,7 @@ const VenuesView = ({ venues }: { venues: Venue[] }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.15 }}
-            className="glass rounded-[50px] overflow-hidden group border border-white/10"
+            className="glass rounded-[32px] sm:rounded-[50px] overflow-hidden group border border-white/10"
           >
             <div className="h-80 relative">
                <img src={venue.img} alt={venue.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
@@ -759,7 +759,7 @@ const VenuesView = ({ venues }: { venues: Venue[] }) => {
                  </div>
                )}
             </div>
-            <div className="p-12">
+            <div className="p-6 sm:p-12">
               <h3 className="text-4xl font-extrabold tracking-tight mb-2 uppercase">{venue.name}</h3>
               <p className="text-accent text-[10px] uppercase font-bold tracking-[0.3em] mb-10">{venue.arena}</p>
               
@@ -813,13 +813,13 @@ const ServicesView = () => {
   ];
 
   return (
-    <div className="pt-40 pb-40 px-12 max-w-7xl mx-auto">
+    <div className="pt-28 md:pt-40 pb-28 md:pb-40 px-6 md:px-12 max-w-7xl mx-auto">
       <header className="mb-32 text-center">
         <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs font-bold uppercase tracking-[0.6em] text-accent mb-6">Our Expertise</motion.h2>
         <motion.h1 
           initial={{ opacity: 0, scale: 0.95 }} 
           animate={{ opacity: 1, scale: 1 }} 
-          className="text-7xl md:text-[110px] font-extrabold tracking-tighter leading-[0.85] mb-12"
+          className="text-5xl sm:text-7xl md:text-[110px] font-extrabold tracking-tighter leading-[0.85] mb-12"
         >
           MAKING <br/><span className="serif-ital accent-text">The Magic</span>
         </motion.h1>
@@ -835,7 +835,7 @@ const ServicesView = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="glass p-12 rounded-[50px] flex flex-col neon-border"
+            className="glass p-6 sm:p-12 rounded-[32px] sm:rounded-[50px] flex flex-col neon-border"
           >
             <div className="w-16 h-16 vibrant-gradient rounded-[20px] flex items-center justify-center mb-10 shadow-lg shadow-accent/20">
               <pkg.icon className="w-8 h-8 text-white" />
@@ -887,9 +887,9 @@ const LeadsView = () => {
   }, []);
 
   return (
-    <div className="lg:ml-72 pt-32 min-h-screen px-12 pb-40 max-w-7xl mx-auto">
-      <header className="mb-20">
-        <h1 className="text-6xl font-extrabold mb-4 tracking-tighter">Lead <span className="serif-ital">Station</span></h1>
+    <div className="lg:ml-72 pt-28 md:pt-32 min-h-screen px-4 md:px-12 pb-28 md:pb-40 max-w-7xl mx-auto">
+      <header className="mb-12 md:mb-20">
+        <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tighter">Lead <span className="serif-ital">Station</span></h1>
         <p className="text-slate-400 text-xl font-medium">Capture requests from our most premium partners.</p>
       </header>
 
@@ -906,24 +906,24 @@ const LeadsView = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-white/5 bg-slate-900/40">
-                  <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Contact</th>
-                  <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Event Vision</th>
-                  <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Phone</th>
-                  <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Submitted</th>
+                  <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Contact</th>
+                  <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Event Vision</th>
+                  <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Phone</th>
+                  <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Submitted</th>
                 </tr>
               </thead>
               <tbody>
                 {leads.map(lead => (
                   <tr key={lead.id} className="border-b border-white/5 hover:bg-white/5 transition-colors group cursor-pointer">
-                    <td className="px-10 py-8">
+                    <td className="px-4 sm:px-10 py-8">
                        <div className="flex flex-col">
-                          <span className="font-bold text-white mb-1">{lead.email}</span>
+                          <span className="font-bold text-white mb-1 break-all">{lead.email}</span>
                           <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Verified Channel</span>
                        </div>
                     </td>
-                    <td className="px-10 py-8 font-black text-accent uppercase tracking-tighter text-lg">{lead.eventName}</td>
-                    <td className="px-10 py-8 text-sm font-medium text-slate-300">{lead.phone}</td>
-                    <td className="px-10 py-8 text-xs text-slate-500">
+                    <td className="px-4 sm:px-10 py-8 font-black text-accent uppercase tracking-tighter text-lg">{lead.eventName}</td>
+                    <td className="px-4 sm:px-10 py-8 text-sm font-medium text-slate-300">{lead.phone}</td>
+                    <td className="px-4 sm:px-10 py-8 text-xs text-slate-500">
                       {lead.timestamp?.toDate ? lead.timestamp.toDate().toLocaleString() : 'Just now'}
                     </td>
                   </tr>
@@ -963,12 +963,12 @@ const GetInTouchModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="w-full max-w-lg glass p-10 rounded-[44px] relative border border-white/10"
+            className="w-full max-w-lg glass p-6 sm:p-10 rounded-[28px] sm:rounded-[44px] relative border border-white/10 my-auto"
           >
             <button onClick={onClose} className="absolute top-8 right-8 text-slate-400 hover:text-white transition-colors">
               <X className="w-6 h-6" />
@@ -1136,12 +1136,12 @@ const SignInModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="w-full max-w-lg glass p-10 rounded-[44px] relative border border-white/10 text-white my-8"
+            className="w-full max-w-lg glass p-6 sm:p-10 rounded-[28px] sm:rounded-[44px] relative border border-white/10 text-white my-auto"
           >
             <button onClick={onClose} className="absolute top-8 right-8 text-slate-400 hover:text-white transition-colors z-10">
               <X className="w-6 h-6" />
@@ -1287,10 +1287,10 @@ const SignInModal = ({
 
 const DashboardView = ({ artists, venues, events }: { artists: Artist[], venues: Venue[], events: Event[] }) => {
   return (
-    <div className="lg:ml-72 pt-32 min-h-screen px-12 pb-40 max-w-7xl mx-auto">
-      <header className="mb-20">
-        <h1 className="text-6xl font-extrabold mb-4 tracking-tighter">Command <span className="serif-ital">Center</span></h1>
-        <p className="text-slate-400 text-xl font-medium">Real-time performance analytics and management.</p>
+    <div className="lg:ml-72 pt-28 md:pt-32 min-h-screen px-6 md:px-12 pb-28 md:pb-40 max-w-7xl mx-auto">
+      <header className="mb-12 md:mb-20">
+        <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 tracking-tighter">Command <span className="serif-ital">Center</span></h1>
+        <p className="text-slate-400 text-lg md:text-xl font-medium">Real-time performance analytics and management.</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
@@ -1303,22 +1303,22 @@ const DashboardView = ({ artists, venues, events }: { artists: Artist[], venues:
           <motion.div 
             key={i}
             whileHover={{ y: -5 }}
-            className="glass p-8 rounded-3xl flex flex-col justify-between"
+            className="glass p-6 md:p-8 rounded-3xl flex flex-col justify-between"
           >
-            <div className="w-10 h-10 vibrant-gradient rounded-xl flex items-center justify-center mb-10 translate-x-1 translate-y-1">
+            <div className="w-10 h-10 vibrant-gradient rounded-xl flex items-center justify-center mb-6 md:mb-10 translate-x-1 translate-y-1">
               <m.icon className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-4xl font-extrabold mb-1">{m.value}</p>
+              <p className="text-3xl md:text-4xl font-extrabold mb-1">{m.value}</p>
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{m.label}</p>
             </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="glass rounded-[44px] overflow-hidden">
-        <div className="p-10 border-b border-white/5 flex justify-between items-center bg-white/2">
-           <h3 className="text-2xl font-extrabold uppercase tracking-tight">Active Portfolios</h3>
+      <div className="glass rounded-[28px] sm:rounded-[44px] overflow-hidden">
+        <div className="p-6 sm:p-10 border-b border-white/5 flex justify-between items-center bg-white/2">
+           <h3 className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight">Active Portfolios</h3>
            <button className="p-3 glass rounded-xl hover:bg-white/5 transition-colors">
               <Filter className="w-5 h-5 text-accent" />
            </button>
@@ -1327,10 +1327,10 @@ const DashboardView = ({ artists, venues, events }: { artists: Artist[], venues:
            <table className="w-full text-left">
               <thead>
                  <tr className="border-b border-white/5 bg-slate-900/40">
-                    <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Asset</th>
-                    <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Category</th>
-                    <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Metrics</th>
-                    <th className="px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Staus</th>
+                    <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Asset</th>
+                    <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Category</th>
+                    <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Metrics</th>
+                    <th className="px-4 sm:px-10 py-6 text-[10px] font-bold uppercase text-slate-500 tracking-[0.2em]">Staus</th>
                  </tr>
               </thead>
               <tbody>
@@ -1392,14 +1392,14 @@ const CreateEventView = ({ artists, venues, onSave }: { artists: Artist[], venue
   };
 
   return (
-    <div className="lg:ml-72 pt-32 min-h-screen px-12 pb-40 max-w-4xl mx-auto">
-      <header className="mb-16">
-        <h1 className="text-6xl font-extrabold tracking-tighter mb-4">Launch <span className="serif-ital">Event</span></h1>
-        <p className="text-slate-400 text-xl font-medium">Engineer a new musical milestone.</p>
+    <div className="lg:ml-72 pt-28 md:pt-32 min-h-screen px-6 md:px-12 pb-28 md:pb-40 max-w-4xl mx-auto">
+      <header className="mb-12 md:mb-16">
+        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tighter mb-4">Launch <span className="serif-ital">Event</span></h1>
+        <p className="text-slate-400 text-lg md:text-xl font-medium">Engineer a new musical milestone.</p>
       </header>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="glass p-12 rounded-[50px] space-y-10">
+        <div className="glass p-6 sm:p-12 rounded-[32px] sm:rounded-[50px] space-y-6 sm:space-y-10">
           <PhotoUploadInput 
             label="Event Visual" 
             value={form.img} 
@@ -1492,13 +1492,13 @@ const AddArtistView = ({ onSave }: { onSave: (a: Artist) => void }) => {
   };
 
   return (
-    <div className="lg:ml-72 pt-32 min-h-screen px-12 pb-40 max-w-4xl mx-auto">
-      <header className="mb-16">
-        <h1 className="text-6xl font-extrabold tracking-tighter mb-4">Board <span className="serif-ital">Artist</span></h1>
-        <p className="text-slate-400 text-xl font-medium">Add a new performer to the global collective.</p>
+    <div className="lg:ml-72 pt-28 md:pt-32 min-h-screen px-6 md:px-12 pb-28 md:pb-40 max-w-4xl mx-auto">
+      <header className="mb-12 md:mb-16">
+        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tighter mb-4">Board <span className="serif-ital">Artist</span></h1>
+        <p className="text-slate-400 text-lg md:text-xl font-medium">Add a new performer to the global collective.</p>
       </header>
 
-      <form onSubmit={handleSubmit} className="glass p-12 rounded-[50px] space-y-10">
+      <form onSubmit={handleSubmit} className="glass p-6 sm:p-12 rounded-[32px] sm:rounded-[50px] space-y-6 sm:space-y-10">
         <PhotoUploadInput 
           label="Artist Portrait" 
           value={form.img} 
@@ -1508,7 +1508,7 @@ const AddArtistView = ({ onSave }: { onSave: (a: Artist) => void }) => {
           <label className="text-[10px] uppercase font-bold text-slate-500 tracking-[0.3em] block ml-4">Artist Identity</label>
           <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="Stage Name" className="w-full bg-slate-900/60 border border-white/10 rounded-3xl px-8 py-5 focus:border-accent focus:outline-none transition-all font-bold" />
         </div>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
            <div className="space-y-4">
              <label className="text-[10px] uppercase font-bold text-slate-500 tracking-[0.3em] block ml-4">Genre</label>
              <input required value={form.genre} onChange={e => setForm({...form, genre: e.target.value})} placeholder="e.g. Hyperpop" className="w-full bg-slate-900/60 border border-white/10 rounded-3xl px-8 py-5 focus:border-accent focus:outline-none transition-all font-bold" />
@@ -1542,13 +1542,13 @@ const AddVenueView = ({ onSave }: { onSave: (v: Venue) => void }) => {
   };
 
   return (
-    <div className="lg:ml-72 pt-32 min-h-screen px-12 pb-40 max-w-4xl mx-auto">
-      <header className="mb-16">
-        <h1 className="text-6xl font-extrabold tracking-tighter mb-4">Acquire <span className="serif-ital">Arena</span></h1>
-        <p className="text-slate-400 text-xl font-medium">Add a distinctive historical or modern venue.</p>
+    <div className="lg:ml-72 pt-28 md:pt-32 min-h-screen px-6 md:px-12 pb-28 md:pb-40 max-w-4xl mx-auto">
+      <header className="mb-12 md:mb-16">
+        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tighter mb-4">Acquire <span className="serif-ital">Arena</span></h1>
+        <p className="text-slate-400 text-lg md:text-xl font-medium">Add a distinctive historical or modern venue.</p>
       </header>
 
-      <form onSubmit={handleSubmit} className="glass p-12 rounded-[50px] space-y-10">
+      <form onSubmit={handleSubmit} className="glass p-6 sm:p-12 rounded-[32px] sm:rounded-[50px] space-y-6 sm:space-y-10">
         <PhotoUploadInput 
           label="Venue Exhibition" 
           value={form.img} 
