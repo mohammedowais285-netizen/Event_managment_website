@@ -13,11 +13,23 @@ import {
   updateProfile
 } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+import { 
+  getDatabase, 
+  ref as dbRef, 
+  set as dbSet, 
+  push as dbPush, 
+  get as dbGet, 
+  child as dbChild, 
+  serverTimestamp as rtdbServerTimestamp
+} from 'firebase/database';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = (firebaseConfig as any).firestoreDatabaseId ? getFirestore(app, (firebaseConfig as any).firestoreDatabaseId) : getFirestore(app);
+export const rtdb = getDatabase(app, 'https://eventmanagment-ec21e-default-rtdb.firebaseio.com/');
 export const auth = getAuth(app);
+
+export { dbRef, dbSet, dbPush, dbGet, dbChild, rtdbServerTimestamp };
 
 // Set persistence to Local
 setPersistence(auth, browserLocalPersistence).catch(console.error);
