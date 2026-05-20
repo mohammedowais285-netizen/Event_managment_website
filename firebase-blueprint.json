@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "Artist": {
+      "title": "Artist",
+      "description": "A performing artist in the collective",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Artist stage name" },
+        "genre": { "type": "string", "description": "Musical genre" },
+        "bio": { "type": "string", "description": "Short biography" },
+        "img": { "type": "string", "description": "Image URL" },
+        "events": { "type": "number", "description": "Total events count" },
+        "followers": { "type": "string", "description": "Follower count string (e.g. 1.2M)" }
+      },
+      "required": ["name", "genre", "bio", "img"]
+    },
+    "Venue": {
+      "title": "Venue",
+      "description": "A location where events are held",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "City/Region name" },
+        "arena": { "type": "string", "description": "Specific monument or arena name" },
+        "concerts": { "type": "number", "description": "Total concerts hosted" },
+        "artists": { "type": "number", "description": "Unique artists hosted" },
+        "live": { "type": "number", "description": "Current live count" },
+        "img": { "type": "string", "description": "Image URL of the structure" }
+      },
+      "required": ["name", "arena", "img"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "A specific planned or live event",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "artistId": { "type": "string" },
+        "venueId": { "type": "string" },
+        "label": { "type": "string", "description": "e.g. Live Now, Upcoming" },
+        "img": { "type": "string" },
+        "price": { "type": "string" }
+      },
+      "required": ["title", "date", "artistId", "venueId", "img"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Contact request from a potential client",
+      "type": "object",
+      "properties": {
+        "eventName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "userId": { "type": "string", "description": "Optional: Authenticated user ID" }
+      },
+      "required": ["eventName", "email", "phone", "timestamp"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile with roles",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/artists/{artistId}": { "schema": "Artist", "description": "Collection of artists" },
+    "/venues/{venueId}": { "schema": "Venue", "description": "Collection of venues" },
+    "/events/{eventId}": { "schema": "Event", "description": "Collection of events" },
+    "/leads/{leadId}": { "schema": "Lead", "description": "Contact form submissions" },
+    "/users/{userId}": { "schema": "User", "description": "User profiles and permissions" }
+  }
+}

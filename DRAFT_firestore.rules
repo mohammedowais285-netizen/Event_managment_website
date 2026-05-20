@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) 
+             && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- Validation Helpers ---
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'createdAt']) &&
+             data.keys().size() <= 4 &&
+             data.email is string &&
+             data.createdAt == request.time;
+    }
+
+    function isValidArtist(data) {
+      return data.keys().hasAll(['name', 'genre', 'bio', 'img']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.genre is string && data.genre.size() <= 50 &&
+             data.bio is string && data.bio.size() <= 1000 &&
+             data.img is string && data.img.size() <= 2048;
+    }
+
+    function isValidVenue(data) {
+      return data.keys().hasAll(['name', 'arena', 'img']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.arena is string && data.arena.size() <= 200 &&
+             data.img is string && data.img.size() <= 2048;
+    }
+
+    function isValidEvent(data) {
+      return data.keys().hasAll(['title', 'date', 'artistId', 'venueId', 'img']) &&
+             data.title is string && data.title.size() <= 200 &&
+             data.date is string &&
+             isValidId(data.artistId) &&
+             isValidId(data.venueId) &&
+             exists(/databases/$(database)/documents/artists/$(data.artistId)) &&
+             exists(/databases/$(database)/documents/venues/$(data.venueId));
+    }
+
+    function isValidLead(data) {
+      return data.keys().hasAll(['eventName', 'email', 'phone', 'timestamp']) &&
+             data.eventName is string && data.eventName.size() <= 200 &&
+             data.email is string && data.email.matches('^[^@]+@[^@]+\\.[^@]+$') &&
+             data.phone is string && data.phone.size() <= 20 &&
+             data.timestamp == request.time;
+    }
+
+    // --- Match Rules ---
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidUser(incoming()) && incoming().isAdmin == false;
+      allow update: if isSignedIn() && (
+        (request.auth.uid == userId && incoming().diff(existing()).affectedKeys().hasOnly(['displayName'])) ||
+        isAdmin()
+      );
+    }
+
+    match /artists/{artistId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /venues/{venueId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /leads/{leadId} {
+      allow create: if isValidLead(incoming());
+      allow get, list: if isAdmin();
+    }
+  }
+}
